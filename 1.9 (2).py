@@ -4,4 +4,6 @@ dct = {
 	'c': 3, 
 	'd': 4
 }
-print(dct['a'] * 2 , dct['b'] * 2 , dct['c'] * 2 , dct['d'] * 2)
+for key in dct:
+    dct[key] = dct[key] * 2
+print(dct)

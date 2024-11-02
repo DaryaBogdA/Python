@@ -4,4 +4,9 @@ dct = {
 	'c': 3, 
 	'd': 4
 }
-print(dct['a'] + dct['b'] + dct['c'] + dct['d'])
+summa = 0
+for key in dct:
+    dct[key] = dct[key]**2
+    print(dct[key])
+    summa += dct[key]
+print(summa)
