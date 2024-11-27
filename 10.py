@@ -171,3 +171,76 @@ def exercise3_10_7(l):
 # exercise3_10_3(12345, 34567)
 # exercise3_10_5([1, 10, 77, 3, 25, 5])
 # exercise3_10_7([123, 456, 789])
+
+            #игра кубики
+
+
+def randomNumber():
+    num = random.randint(1, 6)
+    return num
+
+
+def cube(number):
+    for i in range(2):
+        print("*" * 5)
+        print("*   *")
+        print("*" + " " + str(number[i])+ " " + "*")
+        print("*   *")
+        print("*" * 5)
+
+
+
+def gameBlock():
+    countYou = 0
+    countComputer = 0
+    while True:
+        step = int(input("Кто ходит первыый? 1 - ты, 2 - компьютер "))
+        if step == 1:
+            for i in range(5):
+                number = [randomNumber(), randomNumber()]
+                cube(number)
+                countYou += number[0] + number[1]
+                print("Сyмма ваших очков: ", countYou)
+
+                number2 = [randomNumber(), randomNumber()]
+                cube(number2)
+                countComputer += number2[0] + number2[1]
+                print("Сyмма очков компутера: ", countComputer)
+
+            print(f"Среднее количество ваших очков: {countYou / 5}")
+            print(f"Среднее количество очков компутера: {countComputer / 5}")
+
+            if countYou > countComputer:
+                print("Вы выйграли")
+            elif countYou < countComputer:
+                print("Компутер выиграл")
+            else:
+                print("У вас ничья")
+            break
+        elif step == 2:
+            for i in range(5):
+                number2 = [randomNumber(), randomNumber()]
+                cube(number2)
+                countComputer += number2[0] + number2[1]
+                print("Сyмма очков компутера: ", countComputer)
+
+                number = [randomNumber(), randomNumber()]
+                cube(number)
+                countYou += number[0] + number[1]
+                print("Сyмма ваших очков: ", countYou)
+
+            print(f"Среднее количество очков компутера: {countComputer / 5}")
+            print(f"Среднее количество ваших очков: {countYou / 5}")
+
+            if countYou > countComputer:
+                print("Вы выйграли")
+            elif countYou < countComputer:
+                print("Компутер выиграл")
+            else:
+                print("У вас ничья")
+            break
+        print("Ты тупой?")
+
+
+   
+gameBlock()
