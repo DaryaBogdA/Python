@@ -1,73 +1,147 @@
-from threading import Lock, Thread
+import re
+def exercise8_8_2():
+    events = [
+    {
+        'date':  '2019-12',
+        'event': 'name1'
+    },
+    {
+        'date':  '2019-12',
+        'event': 'name2'
+    },
+    {
+        'date':  '2019-11',
+        'event': 'name3'
+    },
+    {
+        'date':  '2019-11',
+        'event': 'name4'
+    },
+    {
+        'date':  '2020-10',
+        'event': 'name5'
+    },
+    {
+        'date':  '2020-10',
+        'event': 'name6'
+    },
+    {
+        'date':  '2020-11',
+        'event': 'name5'
+    },
+    {
+        'date':  '2020-11',
+        'event': 'name6'
+    },
+    {
+        'date':  '2020-12',
+        'event': 'name7'
+    },
+    {
+        'date':  '2020-12',
+        'event': 'name8'
+    },
+    {
+        'date':  '2020-12',
+        'event': 'name9'
+    },
+    ]
+
+    result = {}
+
+    for event in events:
+        year, month = map(int, event['date'].split('-'))
+        if year not in result:
+            result[year] = {}
+        if month not in result[year]:
+            result[year][month] = []
+        result[year][month].append(event['event'])
+
+    print(result)
+
+# exercise8_8_2()
 
 
-class SingletonMeta(type):
-    """
-    Это потокобезопасная реализация класса Singleton.
-    """
+def exercise8_9_1():
+    affairs = {
+    '2019-12-31': ['список дел'],
+    '2018-11-29': ['список дел'],
+    '2018-11-30': ['список дел'],
+    '2018-12-27': ['список дел'],
+    '2019-12-29': ['список дел'],
+    '2019-12-30': ['список дел'],
+    '2018-12-30': ['список дел'],
+    '2018-12-31': ['список дел'],
+    }
 
-    _instances = {}
+    for date, events in affairs.items():
+        if date.startswith('2018'):
+            print(f"Дата: {date}, Дела: {events}")
 
-    _lock: Lock = Lock()
-    """
-    У нас теперь есть объект-блокировка для синхронизации потоков во время
-    первого доступа к Одиночке.
-    """
-
-    def __call__(cls, *args, **kwargs):
-        """
-        Данная реализация не учитывает возможное изменение передаваемых
-        аргументов в `__init__`.
-        """
-        # Теперь представьте, что программа была только-только запущена.
-        # Объекта-одиночки ещё никто не создавал, поэтому несколько потоков
-        # вполне могли одновременно пройти через предыдущее условие и достигнуть
-        # блокировки. Самый быстрый поток поставит блокировку и двинется внутрь
-        # секции, пока другие будут здесь его ожидать.
-        with cls._lock:
-            # Первый поток достигает этого условия и проходит внутрь, создавая
-            # объект-одиночку. Как только этот поток покинет секцию и освободит
-            # блокировку, следующий поток может снова установить блокировку и
-            # зайти внутрь. Однако теперь экземпляр одиночки уже будет создан и
-            # поток не сможет пройти через это условие, а значит новый объект не
-            # будет создан.
-            if cls not in cls._instances:
-                instance = super().__call__(*args, **kwargs)
-                cls._instances[cls] = instance
-        return cls._instances[cls]
+# exercise8_9_1()
 
 
-class Singleton(metaclass=SingletonMeta):
-    value: str = None
-    """
-    Мы используем это поле, чтобы доказать, что наш Одиночка действительно
-    работает.
-    """
 
-    def __init__(self, value: str) -> None:
-        self.value = value
-
-    def some_business_logic(self):
-        """
-        Наконец, любой одиночка должен содержать некоторую бизнес-логику,
-        которая может быть выполнена на его экземпляре.
-        """
+def exercise9_1_1(text):
+    result = re.split(r'(?<=[.!?]) +', text)
+    for i in result:
+        print(i)
 
 
-def test_singleton(value: str) -> None:
-    singleton = Singleton(value)
-    print(singleton.value)
+# exercise9_1_1("Првие! как дела? че ты ка. двылаоф. авофыдлао.афдлвоыадловы.фадлв.одалыфов.")
 
 
-if __name__ == "__main__":
-    # Клиентский код.
+def exercise9_1_3():
+    matrix = [
+        [11, 12, 13, 14, 15],
+        [21, 22, 23, 24, 25],
+        [31, 32, 33, 34, 35],
+        [41, 42, 43, 44, 45],
+        [51, 52, 53, 54, 55],
+    ]
 
-    print("If you see the same value, then singleton was reused (yay!)\n"
-          "If you see different values, "
-          "then 2 singletons were created (booo!!)\n\n"
-          "RESULT:\n")
+    diagonal = []
+    for i in range(len(matrix)):
+        diagonal.append(matrix[i][i])
+    print(diagonal) 
 
-    process1 = Thread(target=test_singleton, args=("FOO",))
-    process2 = Thread(target=test_singleton, args=("BAR",))
-    process1.start()
-    process2.start()
+# exercise9_1_3()
+
+
+
+def exercise9_3_1(num):
+    i = 2
+    factors = []
+    while i * i <= num:
+        if num % i:
+            i += 1
+        else:
+            num //= i
+            factors.append(i)
+    if num > 1:
+        factors.append(num)
+    print(factors) 
+
+# num = int(input("Введите целое число: "))
+# exercise9_3_1(num)
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+def exercise9_3_3(start, end):
+    primes = []
+    for num in range(start, end + 1):
+        if is_prime(num):
+            primes.append(num)
+    print(primes) 
+    
+
+
+# start = int(input("Введите первое целое число: "))
+# end = int(input("Введите второе целое число: "))
+# exercise9_3_3(start, end)
