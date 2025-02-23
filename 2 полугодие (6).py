@@ -109,7 +109,7 @@ def exercise9_1_3():
 
 
 
-def exercise9_3_1(num):
+def exercise9_2_1(num):
     i = 2
     factors = []
     while i * i <= num:
@@ -123,7 +123,7 @@ def exercise9_3_1(num):
     print(factors) 
 
 # num = int(input("Введите целое число: "))
-# exercise9_3_1(num)
+# exercise9_2_1(num)
 
 def is_prime(n):
     if n <= 1:
@@ -133,7 +133,7 @@ def is_prime(n):
             return False
     return True
 
-def exercise9_3_3(start, end):
+def exercise9_2_3(start, end):
     primes = []
     for num in range(start, end + 1):
         if is_prime(num):
@@ -144,4 +144,4 @@ def exercise9_3_3(start, end):
 
 # start = int(input("Введите первое целое число: "))
 # end = int(input("Введите второе целое число: "))
-# exercise9_3_3(start, end)
+# exercise9_2_3(start, end)
